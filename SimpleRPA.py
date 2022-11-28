@@ -14,7 +14,7 @@ class SimpleRPA:
         self.dc_flag = None
 
     # 数据检查
-    # cmd.value  1.0 左键单击    2.0 左键双击    3.0 右键单击    4.0 输入    5.0 等待    6.0 滚轮    7.0 回车
+    # cmd.value  1.0 左键单击    2.0 左键双击    3.0 右键单击    4.0 输入    5.0 等待    6.0 滚轮    7.0 回车    8.0 粘贴
     # ctype     空：0
     #           字符串：1
     #           数字：2
@@ -31,7 +31,7 @@ class SimpleRPA:
         # 每行数据检查
         for i in range(1, self.sheet.nrows):
             cmd, args = self.sheet.row(i)[0], self.sheet.row(i)[1]
-            if cmd.ctype != 2 or (cmd.value not in [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]):
+            if cmd.ctype != 2 or (cmd.value not in [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]):
                 print("第{}行第1列，数据出错，请检查".format(i + 1))
                 is_checked = False
             elif cmd.value in [1.0, 2.0, 3.0] and args.ctype != 1:
@@ -43,7 +43,7 @@ class SimpleRPA:
             elif cmd.value in [5.0, 6.0] and args.ctype != 2:
                 print("第{}行第2列，参数非数字，请检查".format(i + 1))
                 is_checked = False
-            elif cmd.value == 7.0 and args.ctype != 0:
+            elif cmd.value == [7.0, 8.0] and args.ctype != 0:
                 print("第{}行第2列，参数非空，请检查".format(i + 1))
         return is_checked
 
@@ -91,7 +91,7 @@ class SimpleRPA:
                 pyperclip.copy(inputs)
                 pyautogui.hotkey('ctrl', 'v')
                 time.sleep(0.5)
-                print("已输入: {}".format(inputs), )
+                print("已输入: {}".format(inputs))
             # 等待
             elif cmd.value == 5.0:
                 wait_time = args.value
@@ -106,6 +106,11 @@ class SimpleRPA:
             elif cmd.value == 7.0:
                 pyautogui.press('enter')
                 print("单击ENTER")
+            # 粘贴
+            elif cmd.value == 8.0:
+                pyautogui.hotkey('ctrl', 'v')
+                time.sleep(0.5)
+                print("已粘贴")
 
             i += 1
 
