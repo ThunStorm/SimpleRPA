@@ -3,6 +3,8 @@ import time
 import xlrd
 import pyperclip
 
+# 置于True可自行选择循环或单次执行。False为单次执行
+EXEC_NUM_SWITCH = False
 
 class SimpleRPA:
 
@@ -121,8 +123,10 @@ class SimpleRPA:
         self.sheet = wb.sheet_by_index(self.sheet_num)
         self.dc_flag = self.data_check()
         if self.dc_flag:
-            # key = input('选择功能: 1.做一次 2.循环到死 \n')
+            #
             key = '1'
+            if not EXEC_NUM_SWITCH:
+                key = input('选择功能: 1.做一次 2.循环到死 \n')
             if key == '1':
                 # 循环拿出每一行指令
                 self.operations()
