@@ -3,8 +3,13 @@ import time
 import xlrd
 import pyperclip
 
-# 置于True可自行选择循环或单次执行。False为单次执行
-EXEC_NUM_SWITCH = False
+# 置于True可自行选择循环或单次执行; False为以默认方式执行
+EXEC_OPT_SWITCH = False
+# 置于True则自动单次执行; False为循环执行
+EXEC_SINGLE_SWITCH = True
+# 选取哪一张EXCEL表作为脚本控制配置文件
+SHEET_NUM = 0
+
 
 class SimpleRPA:
 
@@ -123,9 +128,9 @@ class SimpleRPA:
         self.sheet = wb.sheet_by_index(self.sheet_num)
         self.dc_flag = self.data_check()
         if self.dc_flag:
-            key = '1'
-            if EXEC_NUM_SWITCH:
-                key = input('选择功能: 1.做一次 2.循环到死 \n')
+            key = '1' if EXEC_SINGLE_SWITCH else '2'
+            if EXEC_OPT_SWITCH:
+                key = input('选择功能: 1.做一次 2.循环下去 \n')
             if key == '1':
                 # 循环拿出每一行指令
                 self.operations()
@@ -141,6 +146,6 @@ class SimpleRPA:
 if __name__ == '__main__':
     script_dir = './cmd/cmd.xls'
     img_dir = './cmd/img/'
-    sheet_NO = 0
+    sheet_NO = SHEET_NUM
     app = SimpleRPA(script_dir, sheet_NO, img_dir)
     app.run()
