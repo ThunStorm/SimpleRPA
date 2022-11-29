@@ -123,9 +123,8 @@ class SimpleRPA:
         self.sheet = wb.sheet_by_index(self.sheet_num)
         self.dc_flag = self.data_check()
         if self.dc_flag:
-            #
             key = '1'
-            if not EXEC_NUM_SWITCH:
+            if EXEC_NUM_SWITCH:
                 key = input('选择功能: 1.做一次 2.循环到死 \n')
             if key == '1':
                 # 循环拿出每一行指令
